@@ -1,0 +1,29 @@
+.container h1 {
+    color: #fff;
+}
+
+.edit {
+    margin-right: 5px;
+}
+
+.udBtn {
+    height: 30px;
+    width: 30px;
+}
+
+td {
+    justify-content: center;
+    align-items: center;
+}
+
+.download {
+    margin-left: 15px;
+}
+
+.upload {
+    height: 38px;
+}
+
+.form-label {
+    font-size: x-large;
+}

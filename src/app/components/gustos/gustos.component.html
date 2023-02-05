@@ -1,0 +1,239 @@
+<div class="container mt-5">
+  <h1 class="mb-3 col-12">
+    Sobre mi:
+    <button
+      type="button"
+      class="btn btn-info add"
+      data-bs-toggle="modal"
+      data-bs-target="#add-Modal"
+    >
+      Agregar Gustos
+    </button>
+    <button
+      type="button"
+      class="btn btn-info download"
+      (click)="download()"
+      disabled
+    >
+      Descargar
+    </button>
+    <div class="mb-3">
+      <label for="formFile" class="form-label mt-3"
+        >Actualizar informacion con excel:</label
+      >
+      <div class="d-flex">
+        <form enctype="multipart/form-data">
+          <input
+            class="form-control mb-5"
+            type="file"
+            id="formFile"
+            (change)="onFileSelected($event)"
+            #fileUpload
+          />
+          <button
+            type="button"
+            class="btn btn-info upload"
+            (click)="upload()"
+            disabled
+          >
+            Actualizar
+          </button>
+        </form>
+      </div>
+    </div>
+  </h1>
+  <div>
+    <table class="table table-striped table-dark mb-5 container">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Me gusta</th>
+          <th scope="col">Votos</th>
+          <th scope="col">No me gusta</th>
+          <th scope="col">Votos</th>
+          <th scope="col">Editar/Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let gusto of gustos; let i = index" [attr.data-index]="i">
+          <th scope="row">
+            <input type="checkbox" id="checkbox" (change)="updateSelected(i)" />
+          </th>
+          <td>{{ gusto.meGusta }}</td>
+          <td>
+            {{ gusto.meGusta_cont }}
+            <div class="d-inline-flex">
+              <button
+                type="button"
+                class="btn btn-info rounded-0 d-flex align-items-center justify-content-center udBtn"
+                (click)="upVote(gusto.id, i, 1)"
+              >
+                +
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger rounded-0 d-flex align-items-center justify-content-center udBtn"
+                (click)="downVote(gusto.id, i, 1)"
+              >
+                -
+              </button>
+            </div>
+          </td>
+          <td>{{ gusto.noGusta }}</td>
+          <td>
+            {{ gusto.noGusta_cont }}
+            <div class="d-inline-flex">
+              <button
+                type="button"
+                class="btn btn-info rounded-0 d-flex align-items-center justify-content-center udBtn"
+                (click)="upVote(gusto.id, i, 0)"
+              >
+                +
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger rounded-0 d-flex align-items-center justify-content-center udBtn"
+                (click)="downVote(gusto.id, i, 0)"
+              >
+                -
+              </button>
+            </div>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-info edit"
+              (click)="editInterface(gusto.id, i)"
+              data-bs-toggle="modal"
+              data-bs-target="#edit-Modal"
+            >
+              Editar
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger delete"
+              (click)="deleteInfo(gusto.id)"
+              data-bs-toggle="modal"
+              data-bs-target="#delete-Modal"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-gustos-charts *ngIf="this.gustos.length !== 0" [gustos]="gustos">
+</app-gustos-charts>
+
+<!-- The Modal -->
+<div class="modal fade" id="edit-Modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Editar Gustos</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <span>ID de los items: {{ this.itemToEdit }}</span
+        ><br />
+        <p>Me gusta: <input type="text" placeholder="" #meGusta /></p>
+        <p>No me gusta: <input type="text" placeholder="" #noGusta /></p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-info"
+          (click)="updateField(meGusta.value, noGusta.value)"
+          data-bs-dismiss="modal"
+        >
+          Guardar
+        </button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="delete-Modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">¿Estas seguro?</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="deleteRow()"
+          data-bs-dismiss="modal"
+        >
+          Si
+        </button>
+        <button type="button" class="btn btn-info" data-bs-dismiss="modal">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="add-Modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Agregar nuevos gustos</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p>Me gusta: <input type="text" placeholder="" #gusta /></p>
+        <p>No me gusta: <input type="text" placeholder="" #nogusta /></p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-info"
+          (click)="addGustos(gusta.value, nogusta.value)"
+          data-bs-dismiss="modal"
+        >
+          Guardar
+        </button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

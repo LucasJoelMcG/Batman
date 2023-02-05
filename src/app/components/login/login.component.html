@@ -1,0 +1,49 @@
+<div *ngIf="!loggedIn else logMeOut" class="loginBox container mt-4">
+  <img
+    class="user"
+    src="https://i.ibb.co/yVGxFPR/2.png"
+    height="100px"
+    width="100px"
+  />
+  <h3>Iniciar Sesión</h3>
+  <form method="post">
+    <div class="inputBox">
+      <input
+        id="uname"
+        type="text"
+        name="Username"
+        placeholder="Usuario"
+        required
+        #username
+      />
+      <input
+        id="pass"
+        type="password"
+        name="Password"
+        placeholder="Contraseña"
+        required
+        #password
+      />
+    </div>
+    <button type="submit" (click)="onLogin(username.value, password.value)">
+      Iniciar Sesión
+    </button>
+  </form>
+  <p *ngIf="onLoginError" class="rojo">Usuario o contraseña incorrectos.</p>
+  <a class="violeta" href="#">Olvidé la contraseña<br /> </a>
+  <div class="text-center">
+    <p class="violeta">Registrate</p>
+  </div>
+</div>
+<ng-template #logMeOut> 
+  <div class="loginBox container mt-4">
+    <img
+    class="user"
+    src="https://i.ibb.co/yVGxFPR/2.png"
+    height="100px"
+    width="100px"
+  />
+  <h3>Hola Usuario</h3>
+    <button type="submit" (click)="logOut()">Cerrar Sesion</button> 
+  </div>
+</ng-template>

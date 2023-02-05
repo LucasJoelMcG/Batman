@@ -1,0 +1,19 @@
+<div class="container d-flex mb-4">
+  <canvas
+    baseChart
+    class="chart col-4"
+    (click)="changeOnClick()"
+    [data]="barChartData"
+    [options]="barChartOptions"
+    [type]="barChartType"
+  >
+  </canvas>
+  <canvas
+    baseChart
+    class="chart col-4"
+    [data]="pieChartData"
+    [type]="pieChartType"
+    [options]="pieChartOptions"
+  >
+  </canvas>
+</div>
